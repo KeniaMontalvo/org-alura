@@ -62,11 +62,9 @@ function App() {
       {mostrarFormulario && <Formulario />}
 
       <MiOrg cambiarMostrar={cambiarMostrar} />
-      <Equipo equipo="Programación" />
-      <Equipo equipo="Front End" />
-      <Equipo equipo="Data Science" />
-      <Equipo equipo="Devops" />
-      <Equipo equipo="UX y Diseño" />
+      { 
+        equipos.map((equipo) => <Equipo datos={equipo} key={equipo.titulo} />)
+      }
     </div>
   );
 }
