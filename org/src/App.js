@@ -4,10 +4,41 @@ import Header from './components/Header/Header';
 import Formulario from './components/Formulario/Formulario';
 import MiOrg from './components/MiOrg';
 import Equipo from './components/Equipo';
+import Footer from './components/Footer';
 
 function App() {
   const [mostrarFormulario, actualizarMostrar] = useState(false) 
-  const [colaboradores, actualizarColaboradores] = useState([])
+  const [colaboradores, actualizarColaboradores] = useState([{
+    equipo: "Front End",
+    foto: "https://github.com/harlandlohora.png",
+    nombre: "Harland Lohora",
+    puesto: "Instructor"
+  },
+  {
+    equipo: "UX y Diseño",
+    foto: "https://github.com/JeanmarieAluraLatam.png",
+    nombre: "Jeanmarie Quijada",
+    puesto: "Instructora en Alura Latam"
+  },
+  {
+    equipo: "Programación",
+    foto: "https://github.com/christianpva.png",
+    nombre: "Christian Velasco",
+    puesto: "Head de Alura e Instructor"
+  },
+  {
+    equipo: "Innovación y Gestión",
+    foto: "https://github.com/JoseDarioGonzalezCha.png",
+    nombre: "Jose Gonzalez",
+    puesto: "Dev FullStack"
+  },
+  {
+    equipo: "Programación",
+    foto: "https://github.com/KeniaMontalvo.png",
+    nombre: "Kenia Montalvo",
+    puesto: "Estudiante en Alura Latam"
+  }
+])
 
   //Ternario --> condición ? seMuestra : noSeMuestra
 
@@ -25,11 +56,30 @@ function App() {
     actualizarColaboradores([...colaboradores,colaborador])
   }
 
+  //Eliminar colaborador
+  const eliminarColaborador = () => {
+    console.log("Eliminar colaborador")
+  }
+
+  //Actualizar color de equipo
+  const actualizarColor = (color, titulo) => {
+    console.log("Actualizar: ", color, titulo)
+    const equiposActualizados = equipos.map((equipo) => {
+      if (equipo.titulo === titulo) {
+        equipo.colorPrimario = color
+      }
+
+      return equipo
+    })
+
+    actualizarEquipos(equiposActualizados)
+  }
+
   //Lista de equipos
-  const equipos = [
+  const [equipos,actualizarEquipos] = useState([
     {
       titulo: "Programación",
-      colorPrimario: "##57C278 ",
+      colorPrimario: "#57C278 ",
       colorSecundario: "#D9F7E9"
     },
     {
@@ -62,7 +112,7 @@ function App() {
       colorPrimario: "#FF8A29",
       colorSecundario: "##FFEEDF"
     }
-]
+])
 
   return (
     <div>
@@ -77,8 +127,17 @@ function App() {
 
       <MiOrg cambiarMostrar={cambiarMostrar} />
       { 
-        equipos.map((equipo) => <Equipo datos={equipo} key={equipo.titulo} />)
+        equipos.map((equipo) => <Equipo 
+        datos={equipo} 
+        key={equipo.titulo} 
+        colaboradores={colaboradores.filter(colaborador => colaborador.equipo === equipo.titulo)}
+        eliminarColaborador={eliminarColaborador}
+        actualizarColor={actualizarColor}
+        />
+        )
       }
+
+      <Footer />
     </div>
   );
 }
