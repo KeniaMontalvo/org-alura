@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import './App.css';
 import Header from './components/Header/Header';
 import Formulario from './components/Formulario/Formulario';
@@ -8,35 +9,87 @@ import Footer from './components/Footer';
 
 function App() {
   const [mostrarFormulario, actualizarMostrar] = useState(false) 
-  const [colaboradores, actualizarColaboradores] = useState([{
+  const [colaboradores, actualizarColaboradores] = useState([
+  {
+    id: uuidv4(),
     equipo: "Front End",
     foto: "https://github.com/harlandlohora.png",
     nombre: "Harland Lohora",
     puesto: "Instructor"
   },
   {
+    id: uuidv4(),
     equipo: "UX y Diseño",
     foto: "https://github.com/JeanmarieAluraLatam.png",
     nombre: "Jeanmarie Quijada",
     puesto: "Instructora en Alura Latam"
   },
   {
+    id: uuidv4(),
     equipo: "Programación",
     foto: "https://github.com/christianpva.png",
     nombre: "Christian Velasco",
     puesto: "Head de Alura e Instructor"
   },
   {
+    id: uuidv4(),
     equipo: "Innovación y Gestión",
     foto: "https://github.com/JoseDarioGonzalezCha.png",
     nombre: "Jose Gonzalez",
     puesto: "Dev FullStack"
   },
   {
+    id: uuidv4(),
     equipo: "Programación",
     foto: "https://github.com/KeniaMontalvo.png",
     nombre: "Kenia Montalvo",
     puesto: "Estudiante en Alura Latam"
+  }
+])
+
+//Lista de equipos
+const [equipos,actualizarEquipos] = useState([
+  {
+    id: uuidv4(),
+    titulo: "Programación",
+    colorPrimario: "#57C278 ",
+    colorSecundario: "#D9F7E9"
+  },
+  {
+    id: uuidv4(),
+    titulo: "Front End",
+    colorPrimario: "#82CFFA",
+    colorSecundario: "#E8F8FF"
+  },
+  {
+    id: uuidv4(),
+    titulo: "Data Science",
+    colorPrimario: "#A6D157",
+    colorSecundario: "#F0F8E2"
+  },
+  {
+    id: uuidv4(),
+    titulo: "DevOps",
+    colorPrimario: "#E06B69",
+    colorSecundario: "#FDE7E8"
+  },
+  {
+    id: uuidv4(),
+    titulo: "UX y Diseño",
+    colorPrimario: "#DB6EBF",
+    colorSecundario: "#FAE9F5"
+  },
+  {
+    id: uuidv4(),
+    titulo: "Móvil",
+    colorPrimario: "#FFBA05",
+    colorSecundario: "#FFF5D9"
+  },
+  {
+    id: uuidv4(),
+    titulo: "Innovación y Gestión",
+    colorPrimario: "#FF8A29",
+    colorSecundario: "#FFEEDF"
   }
 ])
 
@@ -57,15 +110,17 @@ function App() {
   }
 
   //Eliminar colaborador
-  const eliminarColaborador = () => {
-    console.log("Eliminar colaborador")
+  const eliminarColaborador = (id) => {
+    console.log("Eliminar colaborador", id)
+    const nuevosColaboradores = colaboradores.filter((colaborador) => colaborador.id !== id)
+    actualizarColaboradores(nuevosColaboradores)
   }
 
   //Actualizar color de equipo
-  const actualizarColor = (color, titulo) => {
-    console.log("Actualizar: ", color, titulo)
+  const actualizarColor = (color, id) => {
+    console.log("Actualizar: ", color, id)
     const equiposActualizados = equipos.map((equipo) => {
-      if (equipo.titulo === titulo) {
+      if (equipo.id === id) {
         equipo.colorPrimario = color
       }
 
@@ -75,44 +130,11 @@ function App() {
     actualizarEquipos(equiposActualizados)
   }
 
-  //Lista de equipos
-  const [equipos,actualizarEquipos] = useState([
-    {
-      titulo: "Programación",
-      colorPrimario: "#57C278 ",
-      colorSecundario: "#D9F7E9"
-    },
-    {
-      titulo: "Front End",
-      colorPrimario: "#82CFFA",
-      colorSecundario: "#E8F8FF"
-    },
-    {
-      titulo: "Data Science",
-      colorPrimario: "#A6D157",
-      colorSecundario: "#F0F8E2"
-    },
-    {
-      titulo: "DevOps",
-      colorPrimario: "#E06B69",
-      colorSecundario: "#FDE7E8"
-    },
-    {
-      titulo: "UX y Diseño",
-      colorPrimario: "#DB6EBF",
-      colorSecundario: "#FAE9F5"
-    },
-    {
-      titulo: "Móvil",
-      colorPrimario: "#FFBA05",
-      colorSecundario: "#FFF5D9"
-    },
-    {
-      titulo: "Innovación y Gestión",
-      colorPrimario: "#FF8A29",
-      colorSecundario: "##FFEEDF"
-    }
-])
+  //Crear equipo
+  const crearEquipo = (nuevoEquipo) => {
+    console.log(nuevoEquipo)
+    actualizarEquipos([...equipos,{ ...nuevoEquipo, id: uuidv4() }])
+  }
 
   return (
     <div>
@@ -122,6 +144,7 @@ function App() {
         mostrarFormulario && <Formulario equipos={
           equipos.map((equipo) => equipo.titulo)}
           registrarColaborador ={registrarColaborador}
+          crearEquipo = {crearEquipo}
         />
       }
 
